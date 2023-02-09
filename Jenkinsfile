@@ -34,6 +34,13 @@ pipeline {
             }
          }
       }
+      stage("Tag and Push") {
+         steps {
+                sh "docker tag jenkins-pipeline_web:latest gredora/jenkins-app:${BUILD_NUMBER}"
+                sh "docker login -u gredora -p @david9911"
+                sh "docker push gredora/jenkins-app:${BUILD_NUMBER}"
+         }
+      }
       stage("deploy") {
          steps {
             sh "docker-compose up -d"
